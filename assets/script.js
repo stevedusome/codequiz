@@ -5,6 +5,7 @@ var questionEl = document.querySelector("#question")
 const spacer2El = document.querySelector("#spacer2")
 const startEl = document.querySelector("#start")
 var score = 0;
+var finalScore
 const questionOrder = [ startQuestion2, startQuestion3, startQuestion4, startFinish]
 var round = 0;
 var time = 0;
@@ -20,6 +21,7 @@ spacer2El.addEventListener("click", nextQuestion);
 function startQuiz() {
   round = 0;
   score = 0;
+  finalScore = 0;
   spacer2El.innerHTML = '';
   highscoreEl.textContent= "Score = " + score;
 
@@ -163,22 +165,34 @@ function startQuestion3() {
     }
 
 function startFinish () {
-    round = round +1;
-    headingEl.textContent = "Finish!";
-    questionEl.textContent = "Congrats! Your score was " + score;
+    round = round +1; 
+    if (time >= 20){
+        finalScore = score + 2
+    }
+    else if
+        (time >= 10){
+        finalScore = score + 1
+        }
 
+    highscoreEl.textContent = "Score = " + finalScore;
+    headingEl.textContent = "Finish!";
+    questionEl.textContent = "Congrats! Your score was " + score + ", with the time bonus bringing it to " + finalScore;
+
+    var formEl = document.createElement("form")
+    formEl.setAttribute("id", "highscore-form")
+    formEl.addEventListener("submit", submitHighscore)
+    spacer2El.append(formEl)
+    
+    var inputEl = document.createElement("input")
+    inputEl.setAttribute("id", "highscore-input")
+    formEl.append(inputEl)
+   
     var buttonEl = document.createElement("p")
     buttonEl.innerHTML = "Try again?"
     buttonEl.setAttribute("id", "start")
     buttonEl.setAttribute("class", "pbutton")
     buttonEl.addEventListener("click", startTimer)
     buttonEl.addEventListener("click", startQuiz);
-    spacer2El.append(buttonEl)
-
-    var buttonEl = document.createElement("p")
-    buttonEl.innerHTML = "Highscores"
-    buttonEl.setAttribute("id", "highscore-button")
-    buttonEl.setAttribute("class", "pbutton")
     spacer2El.append(buttonEl)
 
 }
@@ -214,5 +228,11 @@ function startTimer () {
             clearInterval(intervalID);
         }
     }, 1000)
+}
+
+function submitHighscore (event) {
+    event.preventDefault();
+    var highscoreInput = document.getElementById("highscore-input").value;
+    console.log(highscoreInput)
 }
 
