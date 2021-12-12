@@ -233,6 +233,54 @@ function startTimer () {
 function submitHighscore (event) {
     event.preventDefault();
     var highscoreInput = document.getElementById("highscore-input").value;
-    console.log(highscoreInput)
+
+    //if the local storage is null, this will prevent error messages
+
+        if(localStorage.getItem('initials') == null){
+            localStorage.setItem('initials', '[]')
+        }
+
+        if(localStorage.getItem('scores') == null){
+            localStorage.setItem('scores', '[]')
+        }
+    
+    //we unpack the old highscores and add the new score in to the mix
+        
+    var oldInitials = JSON.parse(localStorage.getItem('initials'));
+    oldInitials.push(highscoreInput)
+
+    var oldScores = JSON.parse(localStorage.getItem('scores'));
+    oldScores.push(finalScore)
+
+    //combine and sort the arrays
+
+    var list = [];
+        for (var i = 0; i < oldScores.length; i++)
+        list.push({'allNames': oldInitials[i], 'allScores': oldScores[i]});
+
+        list.sort(function(a,b){
+            return ((a.allScores > b.allScores) ? -1 :((a.allScores == b.allScores) ? 0 : 1));
+        });
+
+        for (var i = 0; i < list.length; i++) {
+            oldInitials[i] = list[i].allNames
+            oldScores[i] = list[i].allScores
+        }
+
+    //we send the information back to the local storage
+
+    localStorage.setItem('initials', JSON.stringify(oldInitials))
+
+    localStorage.setItem('scores', JSON.stringify(oldScores))
+    
+    spacer2El.innerHTML = '';
+
+    var buttonEl = document.createElement("p")
+    buttonEl.innerHTML = "Try again?"
+    buttonEl.setAttribute("id", "start")
+    buttonEl.setAttribute("class", "pbutton")
+    buttonEl.addEventListener("click", startTimer)
+    buttonEl.addEventListener("click", startQuiz);
+    spacer2El.append(buttonEl)
 }
 
