@@ -1,7 +1,9 @@
 var timerEl = document.querySelector(".timer")
 var highscoreEl = document.querySelector(".highscore")
+const highscoreButtonEl = document.querySelector("#highscore-button")
 var headingEl = document.querySelector("#heading")
 var questionEl = document.querySelector("#question")
+const spacer1El = document.querySelector('#spacer1')
 const spacer2El = document.querySelector("#spacer2")
 const startEl = document.querySelector("#start")
 var score = 0;
@@ -14,16 +16,25 @@ let intervalID;
 
 startEl.addEventListener("click", startQuiz);
 startEl.addEventListener("click", startTimer);
+highscoreButtonEl.addEventListener("click", displayHighscores)
 
 spacer2El.addEventListener("click", nextQuestion);
+
+
+if (localStorage.getItem('initials') == null){
+highscoreEl.textContent= "High Score: 0";
+}
+else var oldScores = JSON.parse(localStorage.getItem('scores'));
+highscoreEl.textContent= "High Score: " + oldScores[0];
 
 
 function startQuiz() {
   round = 0;
   score = 0;
   finalScore = 0;
+  highscoreEl.textContent= "Score: " + score;
   spacer2El.innerHTML = '';
-  highscoreEl.textContent= "Score = " + score;
+
 
   headingEl.textContent = "Question 1";
   questionEl.textContent = "What is a syntax error?"
@@ -203,7 +214,7 @@ function nextQuestion (e){
          console.log(clickedItem)
             if (clickedItem === "true") {
             score = score + 1
-            highscoreEl.textContent= "Score = " + score;
+            highscoreEl.textContent= "Score: " + score;
             spacer2El.innerHTML = '';
             questionOrder[round] ();
     }
@@ -270,7 +281,6 @@ function submitHighscore (event) {
     //we send the information back to the local storage
 
     localStorage.setItem('initials', JSON.stringify(oldInitials))
-
     localStorage.setItem('scores', JSON.stringify(oldScores))
     
     spacer2El.innerHTML = '';
@@ -282,5 +292,34 @@ function submitHighscore (event) {
     buttonEl.addEventListener("click", startTimer)
     buttonEl.addEventListener("click", startQuiz);
     spacer2El.append(buttonEl)
+
+    displayHighscores();
+}
+
+function displayHighscores () {
+    headingEl.textContent = "Highscores";
+    questionEl.textContent = ""
+
+    if(localStorage.getItem('initials') == null){
+        var buttonEl = document.createElement("p")
+        buttonEl.innerHTML = "You haven't set a highscore yet!"
+        buttonEl.setAttribute("class", "pbutton")
+        spacer1El.append(buttonEl)                
+    }
+
+    else 
+    var oldInitials = JSON.parse(localStorage.getItem('initials'));
+    var oldScores = JSON.parse(localStorage.getItem('scores'));
+
+        for (var i = 0; i < oldScores.length; i++) 
+        {  
+        var buttonEl = document.createElement("p")
+        buttonEl.innerHTML = oldInitials[i] + " " + oldScores[i]
+        buttonEl.setAttribute("class", "pbutton")
+        questionEl.append(buttonEl)
+
+
+    }
+    highscoreButtonEl.remove()
 }
 
