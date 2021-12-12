@@ -185,7 +185,7 @@ function startFinish () {
         finalScore = score + 1
         }
 
-    highscoreEl.textContent = "Score = " + finalScore;
+    highscoreEl.textContent = "Score: " + finalScore;
     headingEl.textContent = "Finish!";
     questionEl.textContent = "Congrats! Your score was " + score + ", with the time bonus bringing it to " + finalScore;
 
@@ -197,6 +197,12 @@ function startFinish () {
     var inputEl = document.createElement("input")
     inputEl.setAttribute("id", "highscore-input")
     formEl.append(inputEl)
+
+    var buttonEl = document.createElement("input")
+    buttonEl.innerHTML = "Submit"
+    buttonEl.setAttribute("type", "submit")
+    buttonEl.setAttribute("class", "pbutton")
+    formEl.append(buttonEl)
    
     var buttonEl = document.createElement("p")
     buttonEl.innerHTML = "Try again?"
@@ -311,7 +317,10 @@ function displayHighscores () {
     var oldInitials = JSON.parse(localStorage.getItem('initials'));
     var oldScores = JSON.parse(localStorage.getItem('scores'));
 
-        for (var i = 0; i < oldScores.length; i++) 
+        for (var i = 0; i < oldScores.length; i++){
+
+        if (i <=2)
+
         {  
         var buttonEl = document.createElement("p")
         buttonEl.innerHTML = oldInitials[i] + " " + oldScores[i]
@@ -319,7 +328,22 @@ function displayHighscores () {
         questionEl.append(buttonEl)
 
 
-    }
+    }}
     highscoreButtonEl.remove()
+
+    var buttonEl = document.createElement("p")
+    buttonEl.innerHTML = "Main Menu"
+    buttonEl.setAttribute("class", "pbutton")
+    buttonEl.setAttribute("id", "main-menu")
+    buttonEl.addEventListener("click", mainMenu)
+    spacer2El.append(buttonEl)
+}
+
+function mainMenu () {
+    headingEl.textContent = "Welcome to CodeQuiz";
+    questionEl.innerHTML = "To begin your quiz, push the start button. 3 seconds will be deducted for a wrong answer. <br> <br> 1 point is awarded for finishing with 10 seconds remaining, 2 points for 20";
+    var mainMenuEl = document.querySelector("#main-menu")
+    mainMenuEl.remove()
+
 }
 
