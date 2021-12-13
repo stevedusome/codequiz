@@ -29,7 +29,7 @@ if(localStorage.getItem('scores') == null){
 }
 
 
-if (localStorage.getItem('initials') == '[]'){
+if (localStorage.getItem('scores') == '[]'){
 highscoreEl.textContent= "High Score: 0";
 }
 else {
