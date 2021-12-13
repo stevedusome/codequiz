@@ -108,7 +108,7 @@ header {
     color: rgb(121, 223, 198);
     mix-blend-mode: darken;
     font-family: Raleway, sans-serif;
-    font-weight: lighter;
+    font-weight: heavier;
     font-size: 20px;
     width: 100%;
     display:flex;
