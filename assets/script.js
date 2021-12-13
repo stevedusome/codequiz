@@ -20,8 +20,16 @@ highscoreButtonEl.addEventListener("click", displayHighscores)
 
 spacer2El.addEventListener("click", nextQuestion);
 
+if(localStorage.getItem('initials') == null){
+    localStorage.setItem('initials', '[]')
+}
 
-if (localStorage.getItem('initials') == null){
+if(localStorage.getItem('scores') == null){
+    localStorage.setItem('scores', '[]')
+}
+
+
+if (localStorage.getItem('initials') == '[]'){
 highscoreEl.textContent= "High Score: 0";
 }
 else var oldScores = JSON.parse(localStorage.getItem('scores'));
@@ -190,12 +198,14 @@ function startFinish () {
     questionEl.textContent = "Congrats! Your score was " + score + ", with the time bonus bringing it to " + finalScore;
 
     var formEl = document.createElement("form")
-    formEl.setAttribute("id", "highscore-form")
+    formEl.setAttribute("id", "highscore-form")  
     formEl.addEventListener("submit", submitHighscore)
     spacer2El.append(formEl)
     
     var inputEl = document.createElement("input")
     inputEl.setAttribute("id", "highscore-input")
+    inputEl.setAttribute("maxlength", "3")
+    inputEl.setAttribute("placeholder", "enter initials")
     formEl.append(inputEl)
 
     var buttonEl = document.createElement("input")
@@ -250,21 +260,15 @@ function startTimer () {
 function submitHighscore (event) {
     event.preventDefault();
     var highscoreInput = document.getElementById("highscore-input").value;
-
-    //if the local storage is null, this will prevent error messages
-
-        if(localStorage.getItem('initials') == null){
-            localStorage.setItem('initials', '[]')
-        }
-
-        if(localStorage.getItem('scores') == null){
-            localStorage.setItem('scores', '[]')
-        }
+      // check if inputs are empty (validate)
+  if (highscoreInput === "") {
+    alert("You didn't enter a name");
+    return false;
+  }
     
-    //we unpack the old highscores and add the new score in to the mix
-        
+    //we unpack the old highscores and add the new score in to the mix   
     var oldInitials = JSON.parse(localStorage.getItem('initials'));
-    oldInitials.push(highscoreInput)
+    oldInitials.push(highscoreInput.toUpperCase())
 
     var oldScores = JSON.parse(localStorage.getItem('scores'));
     oldScores.push(finalScore)
@@ -306,11 +310,13 @@ function displayHighscores () {
     headingEl.textContent = "Highscores";
     questionEl.textContent = ""
 
-    if(localStorage.getItem('initials') == null){
+    if(localStorage.getItem('initials') == '[]' ){
         var buttonEl = document.createElement("p")
         buttonEl.innerHTML = "You haven't set a highscore yet!"
         buttonEl.setAttribute("class", "pbutton")
-        spacer1El.append(buttonEl)                
+        questionEl.append(buttonEl)
+        
+
     }
 
     else 
@@ -323,19 +329,28 @@ function displayHighscores () {
 
         {  
         var buttonEl = document.createElement("p")
-        buttonEl.innerHTML = oldInitials[i] + " " + oldScores[i]
-        buttonEl.setAttribute("class", "pbutton")
+        buttonEl.innerHTML = oldInitials[i] + "  <span class=textright>" + oldScores[i] + "</span>";
+        buttonEl.setAttribute("class", "score-display")
         questionEl.append(buttonEl)
 
 
     }}
-    highscoreButtonEl.remove()
+    highscoreButtonEl.remove();
+
+    spacer2El.innerHTML = '';
 
     var buttonEl = document.createElement("p")
-    buttonEl.innerHTML = "Main Menu"
+    buttonEl.textContent = "Main Menu"
     buttonEl.setAttribute("class", "pbutton")
     buttonEl.setAttribute("id", "main-menu")
     buttonEl.addEventListener("click", mainMenu)
+    spacer2El.append(buttonEl)
+
+    var buttonEl = document.createElement("p")
+    buttonEl.textContent = "Clear Scores"
+    buttonEl.setAttribute("class", "pbutton")
+    buttonEl.setAttribute("id", "clear-scores")
+    buttonEl.addEventListener("click", clearScores)
     spacer2El.append(buttonEl)
 }
 
@@ -344,6 +359,43 @@ function mainMenu () {
     questionEl.innerHTML = "To begin your quiz, push the start button. 3 seconds will be deducted for a wrong answer. <br> <br> 1 point is awarded for finishing with 10 seconds remaining, 2 points for 20";
     var mainMenuEl = document.querySelector("#main-menu")
     mainMenuEl.remove()
+    var clearScoresEl = document.querySelector("#clear-scores")
+    clearScoresEl.remove()
 
+    var buttonEl = document.createElement("p")
+    buttonEl.innerHTML = "Start"
+    buttonEl.setAttribute("id", "start")
+    buttonEl.setAttribute("class", "pbutton")
+    buttonEl.addEventListener("click", startTimer)
+    buttonEl.addEventListener("click", startQuiz);
+    spacer2El.append(buttonEl)
+
+    var buttonEl = document.createElement("p")
+    buttonEl.textContent = "Highscores"
+    buttonEl.setAttribute("class", "pbutton")
+    buttonEl.setAttribute("id", "highscore-button")
+    buttonEl.addEventListener("click", displayHighscores)
+    spacer2El.append(buttonEl)
+
+    if (localStorage.getItem('initials') == '[]'){
+        highscoreEl.textContent= "High Score: 0";
+        }
+        else var oldScores = JSON.parse(localStorage.getItem('scores'));
+        highscoreEl.textContent= "High Score: " + oldScores[0];
 }
+
+function clearScores(){
+    localStorage.clear();
+    if(localStorage.getItem('initials') == null){
+        localStorage.setItem('initials', '[]')
+    }
+    
+    if(localStorage.getItem('scores') == null){
+        localStorage.setItem('scores', '[]')
+    }
+    highscoreEl.textContent= "High Score: 0";
+    displayHighscores ();
+    
+}
+
 
