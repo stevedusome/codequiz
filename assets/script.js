@@ -7,7 +7,7 @@ const spacer1El = document.querySelector('#spacer1')
 const spacer2El = document.querySelector("#spacer2")
 const startEl = document.querySelector("#start")
 var score = 0;
-var finalScore
+var finalScore = 0;
 const questionOrder = [ startQuestion2, startQuestion3, startQuestion4, startFinish]
 var round = 0;
 var time = 0;
@@ -196,6 +196,9 @@ function startFinish () {
         (time >= 10){
         finalScore = score + 1
         }   
+    else {
+        finalScore = score
+    }
     highscoreEl.textContent = "Score: " + finalScore;
     headingEl.textContent = "Finish!";
     questionEl.textContent = "Congrats! Your score was " + score + ", with the time bonus bringing it to " + finalScore;
