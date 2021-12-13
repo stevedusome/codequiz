@@ -185,6 +185,7 @@ function startQuestion3() {
 
 function startFinish () {
     clearInterval(intervalID);
+    timerEl.textContent = "Time Left: 0";
     round = round +1; 
     if (time >= 20){
         finalScore = score + 2
