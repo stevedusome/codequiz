@@ -32,8 +32,10 @@ if(localStorage.getItem('scores') == null){
 if (localStorage.getItem('initials') == '[]'){
 highscoreEl.textContent= "High Score: 0";
 }
-else var oldScores = JSON.parse(localStorage.getItem('scores'));
+else {
+var oldScores = JSON.parse(localStorage.getItem('scores'));
 highscoreEl.textContent= "High Score: " + oldScores[0];
+}
 
 
 function startQuiz() {
@@ -322,7 +324,7 @@ function displayHighscores () {
 
     }
 
-    else 
+    else {
     var oldInitials = JSON.parse(localStorage.getItem('initials'));
     var oldScores = JSON.parse(localStorage.getItem('scores'));
 
@@ -337,7 +339,7 @@ function displayHighscores () {
         questionEl.append(buttonEl)
 
 
-    }}
+    }}}
     highscoreButtonEl.remove();
 
     spacer2El.innerHTML = '';
@@ -383,9 +385,10 @@ function mainMenu () {
     if (localStorage.getItem('initials') == '[]'){
         highscoreEl.textContent= "High Score: 0";
         }
-        else var oldScores = JSON.parse(localStorage.getItem('scores'));
+        else {
+            var oldScores = JSON.parse(localStorage.getItem('scores'));
         highscoreEl.textContent= "High Score: " + oldScores[0];
-}
+}}
 
 function clearScores(){
     localStorage.clear();
