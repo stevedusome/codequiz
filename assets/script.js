@@ -191,8 +191,7 @@ function startFinish () {
     else if
         (time >= 10){
         finalScore = score + 1
-        }
-
+        }   
     highscoreEl.textContent = "Score: " + finalScore;
     headingEl.textContent = "Finish!";
     questionEl.textContent = "Congrats! Your score was " + score + ", with the time bonus bringing it to " + finalScore;
@@ -250,9 +249,11 @@ function startTimer () {
         if (time <= 0) {
             clearInterval(intervalID)
             spacer2El.innerHTML = '';
+            timerEl.textContent = "Time Left: 0" 
             startFinish ();}
         else if (round >=4) {
             clearInterval(intervalID);
+            timerEl.textContent = "Time Left: 0" 
         }
     }, 1000)
 }
@@ -307,7 +308,7 @@ function submitHighscore (event) {
 }
 
 function displayHighscores () {
-    headingEl.textContent = "Highscores";
+    headingEl.textContent = "High Scores";
     questionEl.textContent = ""
 
     if(localStorage.getItem('initials') == '[]' ){
@@ -371,7 +372,7 @@ function mainMenu () {
     spacer2El.append(buttonEl)
 
     var buttonEl = document.createElement("p")
-    buttonEl.textContent = "Highscores"
+    buttonEl.textContent = "High Scores"
     buttonEl.setAttribute("class", "pbutton")
     buttonEl.setAttribute("id", "highscore-button")
     buttonEl.addEventListener("click", displayHighscores)
