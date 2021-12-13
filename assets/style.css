@@ -48,7 +48,7 @@ header {
     justify-content: center;
     align-items: center;
     display: flex;
-    box-shadow: 10px 10px 15px rgba(66, 66, 66, 0.168)
+    box-shadow: 10px 10px 15px rgba(66, 66, 66, 0.168);
   }
 
   .width-limiter {
@@ -172,4 +172,19 @@ footer h2 {
 .textright {
   text-align: right;
   color: rgb(214, 194, 83);
+}
+
+@media screen and (max-width: 400px) {
+
+
+  .main {
+    width: 90%;
+    min-width: 310px;
+  }
+
+  .width-limiter {
+    width: 290px;
+
+    min-height: 380px;
+  }
 }
