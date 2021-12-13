@@ -184,6 +184,7 @@ function startQuestion3() {
     }
 
 function startFinish () {
+    clearInterval(intervalID);
     round = round +1; 
     if (time >= 20){
         finalScore = score + 2
