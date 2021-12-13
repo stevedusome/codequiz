@@ -125,7 +125,7 @@ header {
 
   #highscore-input {
     background-color: transparent;
-    margin: 9px;
+    margin: 9px 0px;
     padding: 9px;
     border-radius: 5px;
     border: rgba(0, 0, 0, 0.267) solid 2px;
